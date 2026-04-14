@@ -95,9 +95,9 @@ export default function Hero() {
           </motion.div>
         </div>
         <div>
-          <h3 className="font-display font-bold text-base mb-1 tracking-tight text-white">Hey There!</h3>
-          <p className="text-white/80 leading-relaxed text-sm">
-            I'm <span className="font-medium text-white">Triet</span>, an educator & builder aspiring to attend SMU's MITB AI track. Bridging strategy and code.
+          <h3 className="font-display font-bold text-base mb-1 tracking-tight text-foreground">Hey There!</h3>
+          <p className="text-muted-foreground leading-relaxed text-sm">
+            I'm <span className="font-medium text-foreground">Triet</span>, an educator & builder aspiring to attend SMU's MITB AI track. Bridging strategy and code.
           </p>
         </div>
       </motion.div>
