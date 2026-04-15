@@ -36,8 +36,8 @@ const phases: Phase[] = [
     kicker: 'PHASE /01',
     theme: 'dark',
     opening: [
-      'I thought I could change how millions of Vietnamese learn through educational content.',
-      'I reached millions. But I could not respond to confusion or meet learners where they were.',
+      'I thought I could change how\nmillions of Vietnamese learn\nthrough educational content.',
+      'I reached millions. But I could not respond to\nconfusion or meet learners where they were.',
     ],
     evidenceTitle: 'Visual Evidence',
     evidence: [
@@ -56,8 +56,8 @@ const phases: Phase[] = [
     kicker: 'PHASE /02',
     theme: 'accent',
     opening: [
-      'So I turned to AI and software.',
-      'Personalization at scale is not a content problem. It is a systems problem.',
+      'So I turned to AI\nand software.',
+      'Personalization at scale is\nnot a content problem.\nIt is a systems problem.',
     ],
     evidenceTitle: 'Signals of the Shift',
     evidence: [
@@ -80,18 +80,18 @@ const phases: Phase[] = [
     kicker: 'PHASE /03',
     theme: 'light',
     opening: [
-      'Now I am trying to learn how to design adaptive systems that not only personalize learning, but continuously improve from user interaction.',
-      'SMU MITB (AI Track) is where I learn to make it real.',
+      'Now I am trying to learn how\nto design adaptive systems that\nnot only personalize learning,\nbut continuously improve from\nuser interaction.',
+      'SMU MITB (AI Track) is where\nI learn to make it real.',
     ],
     hasSpline: true,
     closing: 'Adaptive learning has to become real, measurable, and durable.',
   },
 ];
 
-const spanClassMap: Record<NonNullable<EvidenceTile['span']>, string> = {
-  sm: 'md:col-span-4',
-  md: 'md:col-span-6',
-  lg: 'md:col-span-8',
+const widthClassMap: Record<NonNullable<EvidenceTile['span']>, string> = {
+  sm: 'w-[260px] md:w-[300px]',
+  md: 'w-[300px] md:w-[420px]',
+  lg: 'w-[360px] md:w-[500px]',
 };
 
 const SPLINE_SCENE_URL = 'https://prod.spline.design/qB9mWdZXwu51oQKR/scene.splinecode';
@@ -241,20 +241,30 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
 
         <div className="mt-14 max-w-5xl">
           <h3
-            className={`max-w-4xl font-display text-[2.55rem] font-bold leading-[0.94] tracking-tight md:text-[4.6rem] ${
+            className={`max-w-4xl font-display text-3xl font-semibold leading-[1.1] tracking-[-0.01em] md:text-5xl ${
               isAccent ? 'text-lime-400' : isLight ? 'text-black' : 'text-white'
             }`}
           >
-            {phase.opening[0]}
+            {phase.opening[0].split('\n').map((line, i) => (
+              <React.Fragment key={i}>
+                {line}
+                {i !== phase.opening[0].split('\n').length - 1 && <br />}
+              </React.Fragment>
+            ))}
           </h3>
 
           {phase.opening[1] ? (
             <p
-              className={`mt-7 max-w-3xl text-lg leading-tight md:text-[2rem] ${
+              className={`mt-6 max-w-3xl text-base leading-snug md:text-xl ${
                 isLight ? 'text-black/62' : 'text-white/58'
               }`}
             >
-              {phase.opening[1]}
+              {phase.opening[1].split('\n').map((line, i) => (
+                <React.Fragment key={i}>
+                  {line}
+                  {i !== phase.opening[1].split('\n').length - 1 && <br />}
+                </React.Fragment>
+              ))}
             </p>
           ) : null}
         </div>
@@ -267,7 +277,7 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
               </p>
             ) : null}
 
-            {phase.evidence?.length ? <EvidenceGrid tiles={phase.evidence} theme={phase.theme} /> : null}
+            {phase.evidence?.length ? <EvidenceMarquee tiles={phase.evidence} theme={phase.theme} /> : null}
             {phase.projects?.length ? <ProjectGrid projects={phase.projects} /> : null}
           </div>
         ) : null}
@@ -284,52 +294,53 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
   );
 };
 
-const EvidenceGrid = ({ tiles, theme }: { tiles: EvidenceTile[]; theme: PhaseTheme }) => {
+const EvidenceMarquee = ({ tiles, theme }: { tiles: EvidenceTile[]; theme: PhaseTheme }) => {
+  // Duplicate tiles to ensure seamless infinite scroll
+  // Four copies guarantee it covers ultra-wide screens even if the original array is short
+  const marqueeTiles = [...tiles, ...tiles, ...tiles, ...tiles];
+
   return (
-    <div className="mt-5 grid gap-3 md:grid-cols-12">
-      {tiles.map((tile) => (
-        <EvidenceTileCard key={tile.title} tile={tile} theme={theme} />
-      ))}
+    <div 
+      className="mt-6 flex overflow-hidden" 
+      style={{ 
+        maskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)'
+      }}
+    >
+      <div className="flex w-max flex-nowrap gap-3 pr-3 pt-1 pb-1 hover:[animation-play-state:paused] animate-marquee">
+        {marqueeTiles.map((tile, idx) => (
+          <EvidenceTileCard key={`${tile.title}-${idx}`} tile={tile} theme={theme} />
+        ))}
+      </div>
     </div>
   );
 };
 
 const EvidenceTileCard = ({ tile, theme }: { tile: EvidenceTile; theme: PhaseTheme }) => {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
-
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.015, 1, 0.99]);
   const darkCard = theme !== 'light';
 
   return (
-    <motion.div
-      ref={ref}
-      style={{ scale }}
-      className={`${spanClassMap[tile.span ?? 'sm']} min-h-40 border p-5 transition-colors duration-300 hover:translate-y-[-1px] ${
+    <div
+      className={`${widthClassMap[tile.span ?? 'sm']} shrink-0 flex flex-col justify-between min-h-40 border p-5 transition-all duration-300 hover:translate-y-[-2px] hover:shadow-lg ${
         darkCard
-          ? 'border-white/10 bg-white/[0.035] hover:border-white/18'
-          : 'border-black/10 bg-black/[0.025] hover:border-black/18'
+          ? 'border-white/10 bg-white/[0.035] hover:border-white/20 hover:bg-white/[0.05] shadow-black/50'
+          : 'border-black/10 bg-black/[0.025] hover:border-black/20 hover:bg-black/[0.05] shadow-black/5'
       }`}
     >
-      <div className="flex h-full flex-col justify-between">
-        <div className="flex items-center justify-between">
-          <span className={`font-mono text-[10px] uppercase tracking-[0.24em] ${darkCard ? 'text-white/45' : 'text-black/42'}`}>
-            Placeholder
-          </span>
-          <span className={`h-2 w-2 rounded-full ${theme === 'accent' ? 'bg-lime-400' : darkCard ? 'bg-white/50' : 'bg-black/45'}`} />
-        </div>
-
-        <div className="mt-8">
-          <p className={`font-display text-xl leading-none md:text-2xl ${darkCard ? 'text-white' : 'text-black'}`}>{tile.title}</p>
-          {tile.meta ? (
-            <p className={`mt-3 text-sm leading-6 ${darkCard ? 'text-white/55' : 'text-black/52'}`}>{tile.meta}</p>
-          ) : null}
-        </div>
+      <div className="flex items-center justify-between">
+        <span className={`font-mono text-[10px] uppercase tracking-[0.24em] ${darkCard ? 'text-white/45' : 'text-black/42'}`}>
+          Evidence
+        </span>
+        <span className={`h-2 w-2 rounded-full ${theme === 'accent' ? 'bg-lime-400' : darkCard ? 'bg-white/50' : 'bg-black/45'}`} />
       </div>
-    </motion.div>
+
+      <div className="mt-8 select-none">
+        <p className={`font-display text-xl leading-none md:text-2xl ${darkCard ? 'text-white' : 'text-black'}`}>{tile.title}</p>
+        {tile.meta ? (
+          <p className={`mt-3 text-sm leading-6 ${darkCard ? 'text-white/55' : 'text-black/52'}`}>{tile.meta}</p>
+        ) : null}
+      </div>
+    </div>
   );
 };
 
