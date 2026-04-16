@@ -65,6 +65,8 @@ const phases: Phase[] = [
       { title: 'Youtube video about Large Language Models', meta: '300k views (most-viewed video in Vietnamese about LLM)', span: 'md', image: 'assets/phase2/LLM.png' },
       { title: 'VietAI Certification - Foundation of Machine Learning', meta: 'Graduated with distinction, top 2 of the whole cohort, certified by Dr Thang Luong (Director of research at Google Deepmind)', span: 'sm', image: 'assets/phase2/VietAI.png' },
       { title: 'AI & Deep Learning Meetup Facilitator', meta: 'Facilitated one of the biggest AI meetup in Danang, shared my lessons and (more importantly) learned from other builders', span: 'sm', image: 'assets/phase2/MeetUp.jpg' },
+      { title: 'AI & Deep Learning Meetup Hackathon winner', meta: 'Won 1st place in the AI & Deep Learning Meetup Hackathon, built a prototype of an form analyzer that gives feedback to users based on their workout videos', span: 'sm', image: 'assets/phase2/Hackathon.jpg' },
+      { title: 'Python Developer Certification - FreeCodeCamp', meta: 'Completed 100% of the curriculum, built 5 projects, and earned the certification', span: 'sm', image: 'assets/phase2/FreeCodeCamp.png' },
     ],
     projects: [
       { title: 'Tutor Loop', description: 'Adaptive lesson flow for live learner feedback.', tag: 'prototype' },
