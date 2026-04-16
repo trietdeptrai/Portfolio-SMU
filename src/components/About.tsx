@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Spline from '@splinetool/react-spline';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform, useInView } from 'motion/react';
 
 type EvidenceTile = {
   title: string;
@@ -42,14 +42,14 @@ const phases: Phase[] = [
     ],
     evidenceTitle: 'Visual Evidence',
     evidence: [
-      { title: 'Content Creation', meta: '1.5M + posts (and many more 100k+ posts)', span: 'lg', image: 'assets/phase1/1.5M.png' },
+      { title: 'Content Creation', meta: '1.5M + views (and many more 100k+ posts)', span: 'lg', image: 'assets/phase1/1.5M.png' },
       { title: 'TEDx Stage 01', meta: 'I talked about three steps to accept our dark side, taken from my own experiences', span: 'sm', image: 'assets/phase1/TEDx.jpg' },
       { title: 'TEDx Stage 02', meta: 'I talked about the connection between authenticity and learning science, and how being authentic can also make you a better learner', span: 'sm', image: 'assets/phase1/TEDx2.jpg' },
       { title: 'U.S. Embassy Workshops: Hero Journey', meta: 'I talked about the concept of Hero Journey and how it can be used to understand and overcome challenges in our lives', span: 'md', image: 'assets/phase1/US.jpg' },
       { title: 'U.S. Embassy Workshops: Lessons from Benjamin Franklin', meta: 'I talked about three topics: Benjamin Franklin\'s 13 virtues, how he learned, and how he created a great network', span: 'sm', image: 'assets/phase1/Benjamin.jpg' },
       { title: 'BUV Learning and Relearning award 2024', meta: 'I was awarđe the Learning and Relearning award for my contribution to the academic culture at BUV', span: 'sm', image: 'assets/phase1/Award.jpg' },
     ],
-    closing: 'I could capture attention at scale. I could not personalize learning.',
+    closing: 'I could not personalize learning.',
   },
   {
     id: '02',
@@ -62,9 +62,9 @@ const phases: Phase[] = [
     ],
     evidenceTitle: 'Signals of the Shift',
     evidence: [
-      { title: 'LLM Research Article', meta: '300k views', span: 'md' },
-      { title: 'VietAI Certification', meta: 'Top 2', span: 'sm' },
-      { title: 'AI Meetup Facilitator', meta: 'Image placeholder', span: 'sm' },
+      { title: 'Youtube video about Large Language Models', meta: '300k views (most-viewed video in Vietnamese about LLM)', span: 'md', image: 'assets/phase2/LLM.png' },
+      { title: 'VietAI Certification - Foundation of Machine Learning', meta: 'Graduated with distinction, top 2 of the whole cohort, certified by Dr Thang Luong (Director of research at Google Deepmind)', span: 'sm', image: 'assets/phase2/VietAI.png' },
+      { title: 'AI & Deep Learning Meetup Facilitator', meta: 'Facilitated one of the biggest AI meetup in Danang, shared my lessons and (more importantly) learned from other builders', span: 'sm', image: 'assets/phase2/MeetUp.jpg' },
     ],
     projects: [
       { title: 'Tutor Loop', description: 'Adaptive lesson flow for live learner feedback.', tag: 'prototype' },
@@ -134,11 +134,18 @@ export default function About() {
         <aside className="h-fit md:sticky md:top-28">
           <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-muted-foreground">The Narrative</p>
           <h2 className="mt-4 font-display text-3xl font-semibold leading-none text-foreground md:text-4xl">
-            My Story
+            <TypewriterHook text="Hello, I'm Triet." />
           </h2>
-          <p className="mt-5 max-w-[15rem] text-sm leading-6 text-muted-foreground">
-            A three-phase journey of solving one problem
-          </p>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.8, delay: 1.2 }}
+            className="mt-5 max-w-[15rem] text-sm leading-6 text-muted-foreground"
+          >
+            An <span className="italic text-foreground">educator, marketer & builder</span> aspiring to
+            attend SMU&apos;s MITB AI track. Below is the story of how I got here.
+          </motion.p>
 
           <nav className="mt-10 space-y-5 border-l border-border/80 pl-4" aria-label="About phases">
             {phases.map((phase) => {
@@ -247,20 +254,6 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
               </React.Fragment>
             ))}
           </h3>
-
-          {phase.opening[1] ? (
-            <p
-              className={`mt-6 max-w-3xl text-base leading-snug md:text-xl ${isLight ? 'text-black/62' : 'text-white/58'
-                }`}
-            >
-              {phase.opening[1].split('\n').map((line, i) => (
-                <React.Fragment key={i}>
-                  {line}
-                  {i !== phase.opening[1].split('\n').length - 1 && <br />}
-                </React.Fragment>
-              ))}
-            </p>
-          ) : null}
         </div>
 
         {phase.evidence?.length || phase.projects?.length ? (
@@ -278,8 +271,21 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
 
         {phase.hasSpline ? <SplinePanel /> : null}
 
-        <div className={`mt-12 border-t ${isLight ? 'border-black/10' : 'border-white/10'} pt-5`}>
-          <p className={`max-w-3xl text-base md:text-[1.05rem] ${isLight ? 'text-black/65' : 'text-white/62'}`}>
+        <div className={`mt-12 border-t ${isLight ? 'border-black/10' : 'border-white/10'} pt-6`}>
+          {phase.opening[1] ? (
+            <p
+              className={`max-w-3xl text-base leading-snug md:text-xl ${isLight ? 'text-black/75' : 'text-lime-400/80'
+                }`}
+            >
+              {phase.opening[1].split('\n').map((line, i) => (
+                <React.Fragment key={i}>
+                  {line}
+                  {i !== phase.opening[1].split('\n').length - 1 && <br />}
+                </React.Fragment>
+              ))}
+            </p>
+          ) : null}
+          <p className={`${phase.opening[1] ? 'mt-3' : ''} max-w-3xl text-base md:text-[1.05rem] ${isLight ? 'text-black/65' : 'text-white/62'}`}>
             {phase.closing}
           </p>
         </div>
@@ -387,5 +393,43 @@ const SplinePanel = () => {
         <Spline scene={SPLINE_SCENE_URL} className="h-full w-full" />
       </div>
     </div>
+  );
+};
+
+const TypewriterHook = ({ text }: { text: string }) => {
+  const [displayText, setDisplayText] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
+
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    let i = 0;
+    const typingInterval = setInterval(() => {
+      if (i < text.length) {
+        setDisplayText(text.substring(0, i + 1));
+        i++;
+      } else {
+        clearInterval(typingInterval);
+        setTimeout(() => setShowCursor(false), 1200);
+      }
+    }, 60);
+
+    return () => clearInterval(typingInterval);
+  }, [isInView, text]);
+
+  return (
+    <span ref={ref} className="relative inline-block">
+      {displayText}
+      <span className="invisible absolute left-0 top-0 select-none">{text}</span>
+      <motion.span
+        animate={showCursor ? { opacity: [0, 1, 0] } : { opacity: 0 }}
+        transition={{ repeat: showCursor ? Infinity : 0, duration: 0.8, ease: 'linear' }}
+        className="ml-2 inline-block h-[0.9em] w-[4px] translate-y-1 bg-primary"
+        style={{ display: showCursor ? 'inline-block' : 'none' }}
+      />
+    </span>
   );
 };
