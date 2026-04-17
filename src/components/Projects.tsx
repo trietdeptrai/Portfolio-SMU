@@ -3,48 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import ProjectShowcase from './ProjectShowcase';
 
-const projects = [
-  {
-    id: 1,
-    title: 'E-Commerce Redesign',
-    category: 'UX/UI & Frontend',
-    type: 'Content',
-    description: 'A complete overhaul of a legacy e-commerce platform, focusing on conversion rate optimization and modern aesthetics.',
-    role: 'Lead Designer & Frontend Developer. Conducted user research, wireframing, and implemented the final design in React.',
-    image: 'https://images.unsplash.com/photo-1661956602116-aa6865609028?q=80&w=1600&auto=format&fit=crop',
-    className: 'md:col-span-2 md:row-span-2',
-  },
-  {
-    id: 2,
-    title: 'Fintech Dashboard',
-    category: 'Web App',
-    type: 'Coding Project',
-    description: 'A complex data visualization dashboard for financial analysts.',
-    role: 'Frontend Developer. Built complex D3.js charts and managed state with Redux.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop',
-    className: 'md:col-span-1 md:row-span-2',
-  },
-  {
-    id: 3,
-    title: 'Brand Identity',
-    category: 'Marketing',
-    type: 'Content',
-    description: 'Strategic repositioning for a B2B SaaS company.',
-    role: 'Marketing Strategist. Developed the core messaging and visual guidelines.',
-    image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1600&auto=format&fit=crop',
-    className: 'md:col-span-2 md:row-span-1',
-  },
-  {
-    id: 4,
-    title: 'Mobile App Concept',
-    category: 'Product Design',
-    type: 'Coding Project',
-    description: 'An exploratory concept for a habit-tracking application.',
-    role: 'Product Designer. Focused on micro-interactions and gamification.',
-    image: 'https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=800&auto=format&fit=crop',
-    className: 'md:col-span-1 md:row-span-1',
-  }
-];
+import { projects } from '../data/projects';
 
 export default function Projects() {
   const [activeProject, setActiveProject] = useState<any>(null);
@@ -66,9 +25,9 @@ export default function Projects() {
 
       <AnimatePresence>
         {activeProject && (
-          <ProjectShowcase 
-            project={activeProject} 
-            onClose={() => setActiveProject(null)} 
+          <ProjectShowcase
+            project={activeProject}
+            onClose={() => setActiveProject(null)}
           />
         )}
       </AnimatePresence>

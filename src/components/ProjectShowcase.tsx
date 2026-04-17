@@ -2,10 +2,22 @@ import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { X, ExternalLink } from 'lucide-react';
 
+import { Project } from '../data/projects';
+
 interface ProjectShowcaseProps {
-  project: any;
+  project: Project;
   onClose: () => void;
 }
+
+const highlightMetrics = (text: string) => {
+  // Regex to match percentages (e.g., 77%, 38.5%)
+  const parts = text.split(/(\d+(?:\.\d+)?%)/g);
+  return parts.map((part, i) => 
+    part.match(/\d+(?:\.\d+)?%/) ? (
+      <span key={i} className="text-lime-400 font-bold">{part}</span>
+    ) : part
+  );
+};
 
 export default function ProjectShowcase({ project, onClose }: ProjectShowcaseProps) {
   // Lock body scroll when open
@@ -74,13 +86,13 @@ export default function ProjectShowcase({ project, onClose }: ProjectShowcasePro
               <div>
                 <h4 className="text-sm font-mono text-muted-foreground uppercase tracking-widest mb-4">Role & Process</h4>
                 <p className="text-foreground font-medium">{project.role}</p>
-                <p className="text-muted-foreground mt-2">2023 - 2024</p>
+                <p className="text-muted-foreground mt-2">{project.year}</p>
               </div>
               
               <div>
                 <h4 className="text-sm font-mono text-muted-foreground uppercase tracking-widest mb-4">Tech Stack / Tools</h4>
                 <div className="flex flex-wrap gap-2">
-                  {['React', 'Framer Motion', 'Figma', 'Tailwind'].map(tool => (
+                  {project.techStack.map(tool => (
                     <span key={tool} className="px-3 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded-full border border-border/50">
                       {tool}
                     </span>
@@ -88,46 +100,50 @@ export default function ProjectShowcase({ project, onClose }: ProjectShowcasePro
                 </div>
               </div>
 
-              <div>
-                <a href="#" className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-primary/70 transition-colors group">
-                  Visit Live Project <ExternalLink size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </a>
-              </div>
+              {project.liveUrl && (
+                <div>
+                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-primary/70 transition-colors group">
+                    Visit Live Project <ExternalLink size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  </a>
+                </div>
+              )}
             </div>
 
             {/* Main Content */}
             <div className="col-span-1 md:col-span-2 space-y-12 prose prose-invert max-w-none">
               <div>
                 <h3 className="text-3xl font-display font-bold mb-6 text-foreground">Overview</h3>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  {project.description} This dedicated case study page provides a deeper look at the challenge, the architectural decisions, and the metrics that defined success.
-                </p>
-                <p className="text-lg text-muted-foreground leading-relaxed mt-6">
-                  By applying rigorous user-centric design principles and pairing them with robust front-end architecture, the final product exceeded expectations. <strong className="text-foreground border-b border-lime-400 pb-1">(Note: This is dummy content. You can fully customize this layout directly inside <code className="bg-secondary px-1 text-sm rounded">src/components/ProjectShowcase.tsx</code>)</strong>
+                <p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
+                  {project.fullDescription}
                 </p>
               </div>
 
               <div>
                 <h3 className="text-3xl font-display font-bold mb-6 text-foreground">The Challenge</h3>
                 <div className="bg-secondary/30 border border-border/50 p-8 rounded-2xl">
-                  <p className="text-xl text-foreground italic font-display">
-                    "How might we design a seamlessly engaging experience while maintaining complex data fidelity and high performance?"
+                  <p className="text-xl text-foreground italic font-display whitespace-pre-line leading-relaxed">
+                    "{highlightMetrics(project.challenge)}"
                   </p>
                 </div>
               </div>
 
-              {/* Mock Gallery */}
-              <div className="pt-8">
-                <h3 className="text-3xl font-display font-bold mb-6 text-foreground">Visuals & Process</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                   <div className="aspect-video bg-secondary/50 rounded-xl overflow-hidden relative group border border-border/50">
-                      <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1600&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" alt="Process" />
-                   </div>
-                   <div className="aspect-video bg-secondary/50 rounded-xl overflow-hidden relative group border border-border/50">
-                      <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1600&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" alt="Code" />
-                   </div>
+              {/* Gallery */}
+              {project.gallery && project.gallery.length > 0 && (
+                <div className="pt-8">
+                  <h3 className="text-3xl font-display font-bold mb-6 text-foreground">Visuals & Process</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {project.gallery.map((img, idx) => (
+                      <div key={idx} className="aspect-video bg-secondary/50 rounded-xl overflow-hidden relative group border border-border/50">
+                        <img 
+                          src={img} 
+                          className="absolute inset-0 w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" 
+                          alt={`${project.title} progress ${idx + 1}`} 
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
             </div>
           </div>
