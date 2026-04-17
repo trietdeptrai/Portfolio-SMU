@@ -91,7 +91,7 @@ const phases: Phase[] = [
       'SMU MITB (AI Track) is where I learn to make it real.',
     ],
     hasSpline: true,
-    closing: 'Adaptive learning has to become real, measurable, and durable.',
+    closing: '',
   },
 ];
 
@@ -288,23 +288,28 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
         <div className={`mt-12 border-t ${isLight ? 'border-black/10' : 'border-white/10'} pt-6`}>
           {phase.opening[1] ? (
             phase.id === '03' ? (
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2, duration: 0.8 }}
-                className="relative overflow-hidden rounded-2xl bg-black py-10 px-6 mt-6 mb-8 md:py-12 md:px-10"
-              >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(163,230,53,0.15),transparent_50%)]" />
-                <div className="relative z-10 max-w-4xl">
-                  <span className="inline-block rounded-full bg-lime-400/10 border border-lime-400/20 px-3 py-1 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-lime-400 mb-5">
-                    The Destination
-                  </span>
-                  <h4 className="font-display text-[1.75rem] sm:text-4xl lg:text-[3.25rem] font-medium tracking-tight text-white leading-[1.1]">
-                    SMU MITB <span className="text-white/40 font-light block sm:inline">(AI Track)</span><br className="hidden sm:block" /> is where I learn to make it <span className="text-lime-400 italic">real.</span>
-                  </h4>
-                </div>
-              </motion.div>
+              <div className="mt-6 mb-8">
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2, duration: 0.8 }}
+                  className="relative overflow-hidden rounded-2xl bg-black py-10 px-6 md:py-12 md:px-10"
+                >
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(163,230,53,0.15),transparent_50%)]" />
+                  <div className="relative z-10 max-w-4xl">
+                    <span className="inline-block rounded-full bg-lime-400/10 border border-lime-400/20 px-3 py-1 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-lime-400 mb-5">
+                      The Destination
+                    </span>
+                    <h4 className="font-display text-[1.75rem] sm:text-4xl lg:text-[3.25rem] font-medium tracking-tight text-white leading-[1.1]">
+                      SMU MITB <span className="text-white/40 font-light block sm:inline">(AI Track)</span><br className="hidden sm:block" /> is where I learn to make it <span className="text-lime-400 italic">real.</span>
+                    </h4>
+                  </div>
+                </motion.div>
+
+                {/* Cinematic Campus Parallax Reveal */}
+                <CampusParallax />
+              </div>
             ) : (
               <p
                 className={`max-w-3xl text-base leading-snug md:text-xl ${isLight ? 'text-black/75' : 'text-lime-400/80'
@@ -319,9 +324,11 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
               </p>
             )
           ) : null}
-          <p className={`${phase.opening[1] ? (phase.id === '03' ? '' : 'mt-3') : ''} max-w-3xl text-base md:text-[1.05rem] ${isLight ? 'text-black/65' : 'text-white/62'}`}>
-            {phase.closing}
-          </p>
+          {phase.closing ? (
+            <p className={`${phase.opening[1] ? (phase.id === '03' ? '' : 'mt-3') : ''} max-w-3xl text-base md:text-[1.05rem] ${isLight ? 'text-black/65' : 'text-white/62'}`}>
+              {phase.closing}
+            </p>
+          ) : null}
         </div>
       </div>
     </motion.article>
@@ -475,6 +482,44 @@ const SplinePanel = () => {
         <Spline scene={SPLINE_SCENE_URL} className="h-full w-full" />
       </div>
     </div>
+  );
+};
+
+const CampusParallax = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start end', 'end start'],
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1.08, 1]);
+  const imgOpacity = useTransform(scrollYProgress, [0, 0.25], [0, 1]);
+
+  return (
+    <motion.div
+      ref={containerRef}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ delay: 0.35, duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="relative mt-5 overflow-hidden rounded-2xl"
+      style={{ aspectRatio: '21 / 9' }}
+    >
+      {/* Parallax image layer */}
+      <motion.img
+        src="assets/phase3/smu-connexion.jpg"
+        alt="SMU Connexion campus"
+        style={{ scale, opacity: imgOpacity }}
+        className="absolute inset-0 h-full w-full object-cover object-center"
+      />
+
+      {/* Cinematic vignette overlay */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.55)_100%)]" />
+
+      {/* Bottom gradient for text anchoring */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent" />
+
+    </motion.div>
   );
 };
 
