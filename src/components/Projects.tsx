@@ -47,13 +47,17 @@ const ProjectCard: React.FC<{ project: any; onClick: () => void }> = ({ project,
       <motion.img
         layoutId={`project-image-${project.id}`}
         variants={{
-          hover: { scale: 1.05 }
+          hover: { scale: (project.imageConfig?.scale || 1) * 1.05 }
         }}
+        initial={{ scale: project.imageConfig?.scale || 1 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         src={project.image}
         alt={project.title}
         referrerPolicy="no-referrer"
-        className="absolute inset-0 w-full h-full object-cover"
+        className={`absolute inset-0 w-full h-full ${
+          project.imageConfig?.fit === 'contain' ? 'object-contain' : 'object-cover'
+        }`}
+        style={{ objectPosition: project.imageConfig?.position || 'center' }}
       />
 
       {/* Overlay */}

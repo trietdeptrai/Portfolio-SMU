@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { motion } from 'motion/react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { motion, AnimatePresence } from 'motion/react';
 import { X, ExternalLink } from 'lucide-react';
 
 import { Project } from '../data/projects';
@@ -20,6 +21,8 @@ const highlightMetrics = (text: string) => {
 };
 
 export default function ProjectShowcase({ project, onClose }: ProjectShowcaseProps) {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   // Lock body scroll when open
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -29,6 +32,7 @@ export default function ProjectShowcase({ project, onClose }: ProjectShowcasePro
   }, []);
 
   return (
+    <>
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -55,7 +59,13 @@ export default function ProjectShowcase({ project, onClose }: ProjectShowcasePro
             layoutId={`project-image-${project.id}`}
             src={project.image}
             alt={project.title}
-            className="absolute inset-0 w-full h-full object-cover"
+            className={`absolute inset-0 w-full h-full ${
+              project.imageConfig?.fit === 'contain' ? 'object-contain' : 'object-cover'
+            }`}
+            style={{ 
+              objectPosition: project.imageConfig?.position || 'center',
+              transform: `scale(${project.imageConfig?.scale || 1})`
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent opacity-100" />
           
@@ -133,10 +143,14 @@ export default function ProjectShowcase({ project, onClose }: ProjectShowcasePro
                   <h3 className="text-3xl font-display font-bold mb-6 text-foreground">Visuals & Process</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {project.gallery.map((img, idx) => (
-                      <div key={idx} className="aspect-video bg-secondary/50 rounded-xl overflow-hidden relative group border border-border/50">
+                      <div 
+                        key={idx} 
+                        className="aspect-video bg-secondary/50 rounded-xl overflow-hidden relative group border border-border/50 cursor-zoom-in"
+                        onClick={() => setSelectedImage(img)}
+                      >
                         <img 
                           src={img} 
-                          className="absolute inset-0 w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" 
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
                           alt={`${project.title} progress ${idx + 1}`} 
                         />
                       </div>
@@ -150,5 +164,39 @@ export default function ProjectShowcase({ project, onClose }: ProjectShowcasePro
         </div>
       </motion.div>
     </motion.div>
+
+    {/* Lightbox for Gallery Images — rendered via portal to escape parent stacking context */}
+    {createPortal(
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-xl p-4 md:p-12 cursor-zoom-out"
+            onClick={() => setSelectedImage(null)}
+          >
+            <button 
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-6 right-6 z-[10000] p-3 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-md transition-all border border-white/20 hover:scale-110"
+            >
+              <X size={24} />
+            </button>
+            <motion.img
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.85, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              src={selectedImage}
+              alt="Full view"
+              className="max-w-[95vw] max-h-[90vh] object-contain rounded-2xl shadow-2xl cursor-default"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>,
+      document.body
+    )}
+    </>
   );
 }

@@ -13,6 +13,11 @@ export interface Project {
   image: string;
   gallery: string[];
   className: string;
+  imageConfig?: {
+    fit?: 'cover' | 'contain';
+    position?: string;
+    scale?: number;
+  };
 }
 
 export const projects: Project[] = [
@@ -27,13 +32,21 @@ export const projects: Project[] = [
     role: 'Product Owner & Software Engineer',
     year: '2024',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS 4', 'Radix UI', 'FastAPI', 'LangGraph', 'SSE', 'PostgreSQL', 'pgvector', 'Supabase', 'RAG'],
-    liveUrl: 'https://github.com/your-repo/chronic-ai', // Example link
-    image: 'https://images.unsplash.com/photo-1661956602116-aa6865609028?q=80&w=1600&auto=format&fit=crop',
+    liveUrl: 'https://www.kaggle.com/competitions/med-gemma-impact-challenge/writeups/chronicai-context-aware-patient-records-and-care', // Example link
+    image: '/assets/projects/ChronicAI.png',
     gallery: [
-      'https://images.unsplash.com/photo-1576091160550-217359f4ecf8?q=80&w=1600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1581056771107-24ca5f033842?q=80&w=1600&auto=format&fit=crop'
+      '/assets/projects/ChronicAI - Patient chat.png',
+      '/assets/projects/ChronicAI-Doctor chat.png',
+      '/assets/projects/ChronicAI-Booking.png',
+      '/assets/projects/ChronicAI-1 (2).png',
+      '/assets/projects/highlevel_chronic.png',
     ],
     className: 'md:col-span-2 md:row-span-2',
+    imageConfig: {
+      fit: 'cover',
+      position: 'left',
+      scale: 1
+    }
   },
   {
     id: 2,
