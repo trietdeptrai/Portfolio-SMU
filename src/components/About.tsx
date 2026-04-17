@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Spline from '@splinetool/react-spline';
 import { motion, useScroll, useTransform, useInView } from 'motion/react';
+import { GitHubCalendar } from 'react-github-calendar';
 
 type EvidenceTile = {
   title: string;
@@ -13,6 +14,7 @@ type ProjectCard = {
   title: string;
   description: string;
   tag?: string;
+  image?: string;
 };
 
 type PhaseTheme = 'dark' | 'accent' | 'light';
@@ -26,6 +28,7 @@ type Phase = {
   theme: PhaseTheme;
   evidenceTitle?: string;
   evidence?: EvidenceTile[];
+  projectsTitle?: string;
   projects?: ProjectCard[];
   hasSpline?: boolean;
 };
@@ -68,12 +71,13 @@ const phases: Phase[] = [
       { title: 'AI & Deep Learning Meetup Hackathon winner', meta: 'Won 1st place in the AI & Deep Learning Meetup Hackathon, built a prototype of an form analyzer that gives feedback to users based on their workout videos', span: 'sm', image: 'assets/phase2/Hackathon.jpg' },
       { title: 'Python Developer Certification - FreeCodeCamp', meta: 'Completed 100% of the curriculum, built 5 projects, and earned the certification', span: 'sm', image: 'assets/phase2/FreeCodeCamp.png' },
     ],
+    projectsTitle: 'Applied Prototypes',
     projects: [
-      { title: 'Tutor Loop', description: 'Adaptive lesson flow for live learner feedback.', tag: 'prototype' },
-      { title: 'Prompt Audit', description: 'Structured evaluation for model behavior drift.', tag: 'experiment' },
-      { title: 'Knowledge Relay', description: 'Retrieval pipeline for grounded answers.', tag: 'system attempt' },
-      { title: 'Study Signals', description: 'Interaction tracking for weak-point detection.' },
-      { title: 'Feedback Engine', description: 'Iteration loop for response quality.', tag: 'prototype' },
+      { title: 'Chronic AI', description: 'Context-aware patient record and care management platform for chronic disease patients', tag: 'prototype', image: 'assets/projects/ChronicAI.png' },
+      { title: 'SafeForm AI', description: 'AI-powered form analyzer that gives feedback to users based on their workout videos', tag: 'prototype', image: 'assets/projects/SafeFormAI.png' },
+      { title: 'Vietnamese Voice Forge', description: 'Vietnamese Style paraphrasing (Modern Vietnamese to Ancient Vietnamese and Modern Vietnamese to local Vietnamese)', tag: 'NLP practice project', image: 'assets/projects/NLP.png' },
+      { title: 'Study with Triet', description: 'an aesthetic pomodoro website', tag: 'web app', image: 'assets/projects/StudyWithTriet.png' },
+      { title: 'Xgboost-houseprice-predictor', description: 'Predicting house prices using XGBoost', tag: 'ML practice project', image: 'assets/projects/XGboost.png' },
     ],
     closing: 'I could build working prototypes. But I could not build systems that scale.',
   },
@@ -83,8 +87,8 @@ const phases: Phase[] = [
     kicker: 'PHASE /03',
     theme: 'light',
     opening: [
-      'Now I am trying to learn how\nto design adaptive systems that\nnot only personalize learning,\nbut continuously improve from\nuser interaction.',
-      'SMU MITB (AI Track) is where\nI learn to make it real.',
+      'Building adaptive learning systems.\nBuilding scalable systems for millions of users.',
+      'SMU MITB (AI Track) is where I learn to make it real.',
     ],
     hasSpline: true,
     closing: 'Adaptive learning has to become real, measurable, and durable.',
@@ -267,27 +271,55 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
             ) : null}
 
             {phase.evidence?.length ? <EvidenceMarquee tiles={phase.evidence} theme={phase.theme} /> : null}
-            {phase.projects?.length ? <ProjectGrid projects={phase.projects} /> : null}
+
+            {phase.projectsTitle ? (
+              <p className={`mt-10 ${isLight ? 'text-black/55' : 'text-white/50'} font-mono text-[11px] uppercase tracking-[0.24em]`}>
+                {phase.projectsTitle}
+              </p>
+            ) : null}
+            {phase.projects?.length ? <ProjectMarquee projects={phase.projects} /> : null}
           </div>
         ) : null}
 
         {phase.hasSpline ? <SplinePanel /> : null}
 
+        {phase.id === '02' ? <GitHubGraph /> : null}
+
         <div className={`mt-12 border-t ${isLight ? 'border-black/10' : 'border-white/10'} pt-6`}>
           {phase.opening[1] ? (
-            <p
-              className={`max-w-3xl text-base leading-snug md:text-xl ${isLight ? 'text-black/75' : 'text-lime-400/80'
-                }`}
-            >
-              {phase.opening[1].split('\n').map((line, i) => (
-                <React.Fragment key={i}>
-                  {line}
-                  {i !== phase.opening[1].split('\n').length - 1 && <br />}
-                </React.Fragment>
-              ))}
-            </p>
+            phase.id === '03' ? (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2, duration: 0.8 }}
+                className="relative overflow-hidden rounded-2xl bg-black py-10 px-6 mt-6 mb-8 md:py-12 md:px-10"
+              >
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(163,230,53,0.15),transparent_50%)]" />
+                <div className="relative z-10 max-w-4xl">
+                  <span className="inline-block rounded-full bg-lime-400/10 border border-lime-400/20 px-3 py-1 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-lime-400 mb-5">
+                    The Destination
+                  </span>
+                  <h4 className="font-display text-[1.75rem] sm:text-4xl lg:text-[3.25rem] font-medium tracking-tight text-white leading-[1.1]">
+                    SMU MITB <span className="text-white/40 font-light block sm:inline">(AI Track)</span><br className="hidden sm:block" /> is where I learn to make it <span className="text-lime-400 italic">real.</span>
+                  </h4>
+                </div>
+              </motion.div>
+            ) : (
+              <p
+                className={`max-w-3xl text-base leading-snug md:text-xl ${isLight ? 'text-black/75' : 'text-lime-400/80'
+                  }`}
+              >
+                {phase.opening[1].split('\n').map((line, i) => (
+                  <React.Fragment key={i}>
+                    {line}
+                    {i !== phase.opening[1].split('\n').length - 1 && <br />}
+                  </React.Fragment>
+                ))}
+              </p>
+            )
           ) : null}
-          <p className={`${phase.opening[1] ? 'mt-3' : ''} max-w-3xl text-base md:text-[1.05rem] ${isLight ? 'text-black/65' : 'text-white/62'}`}>
+          <p className={`${phase.opening[1] ? (phase.id === '03' ? '' : 'mt-3') : ''} max-w-3xl text-base md:text-[1.05rem] ${isLight ? 'text-black/65' : 'text-white/62'}`}>
             {phase.closing}
           </p>
         </div>
@@ -365,32 +397,80 @@ const EvidenceTileCard = ({ tile, theme }: { tile: EvidenceTile; theme: PhaseThe
   );
 };
 
-const ProjectGrid = ({ projects }: { projects: ProjectCard[] }) => {
+const ProjectMarquee = ({ projects }: { projects: ProjectCard[] }) => {
+  // Duplicate tiles to ensure seamless infinite scroll backwards
+  const marqueeProjects = [...projects, ...projects, ...projects, ...projects];
+
   return (
-    <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-      {projects.map((project) => (
-        <article
-          key={project.title}
-          className="min-h-44 border border-white/10 bg-black/20 p-4 transition-colors duration-300 hover:border-lime-400/40"
-        >
-          {project.tag ? (
-            <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/42">{project.tag}</p>
-          ) : null}
-          <h4 className="mt-3 font-display text-xl leading-none text-white">{project.title}</h4>
-          <p className="mt-5 text-sm leading-6 text-white/55">{project.description}</p>
-        </article>
-      ))}
+    <div
+      className="mt-6 flex overflow-hidden"
+      style={{
+        maskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)'
+      }}
+    >
+      <div className="flex w-max flex-nowrap gap-3 pr-3 pt-1 pb-1 hover:[animation-play-state:paused] animate-marquee-reverse">
+        {marqueeProjects.map((project, idx) => (
+          <ProjectCardItem
+            key={`${project.title}-${idx}`}
+            project={project}
+            isFeatured={idx % projects.length === 0}
+          />
+        ))}
+      </div>
     </div>
+  );
+};
+
+const ProjectCardItem = ({ project, isFeatured }: { project: ProjectCard; isFeatured: boolean }) => {
+  const hasImage = Boolean(project.image);
+
+  return (
+    <article
+      className={`shrink-0 group relative flex flex-col overflow-hidden border transition-all duration-300 hover:translate-y-[-2px] hover:shadow-lg hover:border-lime-400/40 ${isFeatured ? 'w-[340px] md:w-[480px]' : 'w-[280px] md:w-[340px]'
+        } border-white/10 bg-white/[0.035] shadow-black/50 hover:bg-white/[0.05]`}
+    >
+      {/* Image Layer */}
+      {hasImage ? (
+        <div className="relative w-full flex-1 min-h-[180px] md:min-h-[220px]">
+          <img
+            src={project.image}
+            alt={project.title}
+            className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+          />
+          {project.tag ? (
+            <div className="absolute top-4 left-5 z-10">
+              <span className="rounded-full border border-white/10 bg-black/40 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.2em] text-white/70 backdrop-blur-md">
+                {project.tag}
+              </span>
+            </div>
+          ) : null}
+        </div>
+      ) : (
+        <div className="flex items-center justify-between p-6 pb-0">
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/45 transition-colors group-hover:text-white/70">
+            {project.tag || 'Project'}
+          </span>
+          <span className="h-2 w-2 rounded-full bg-white/50" />
+        </div>
+      )}
+
+      {/* Content Layer */}
+      <div className={`select-none p-5 md:p-6 ${!hasImage ? 'mt-auto min-h-[140px]' : ''}`}>
+        <h4 className="font-display text-xl font-medium tracking-tight text-white md:text-2xl">
+          {project.title}
+        </h4>
+        <p className="mt-2 text-sm leading-relaxed text-white/60 transition-colors duration-300 group-hover:text-white/80">
+          {project.description}
+        </p>
+      </div>
+    </article>
   );
 };
 
 const SplinePanel = () => {
   return (
-    <div className="mt-12 overflow-hidden border border-black/10 bg-white/55">
-      <div className="flex items-center justify-between border-b border-black/10 px-5 py-3">
-        <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-black/52">System Diagram</p>
-        <p className="text-sm text-black/45">Interactive 3D</p>
-      </div>
+    <div className="mt-12 overflow-hidden rounded-xl border border-black/10 bg-[#fbf9f6] shadow-sm">
       <div className="h-[360px] w-full md:h-[500px]">
         <Spline scene={SPLINE_SCENE_URL} className="h-full w-full" />
       </div>
@@ -433,5 +513,55 @@ const TypewriterHook = ({ text }: { text: string }) => {
         style={{ display: showCursor ? 'inline-block' : 'none' }}
       />
     </span>
+  );
+};
+
+const githubTheme = {
+  dark: ['rgba(255,255,255,0.04)', '#0e4429', '#006d32', '#26a641', '#a3e635'],
+};
+
+const GitHubGraph = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-80px' });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 24 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="github-graph-wrap mt-10"
+    >
+      <div className="flex items-center justify-between">
+        <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-white/50">
+          Build Cadence
+        </p>
+        <a
+          href="https://github.com/trietdeptrai"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-mono text-[11px] uppercase tracking-[0.18em] text-lime-400/60 hover:text-lime-400 transition-colors duration-300"
+        >
+          @trietdeptrai ↗
+        </a>
+      </div>
+
+      <div className="mt-4 overflow-x-auto rounded-lg border border-white/[0.07] bg-white/[0.02] p-4 md:p-6">
+        <GitHubCalendar
+          username="trietdeptrai"
+          colorScheme="dark"
+          theme={githubTheme}
+          blockSize={13}
+          blockMargin={4}
+          fontSize={12}
+          hideColorLegend={false}
+          hideMonthLabels={false}
+          hideTotalCount={false}
+          labels={{
+            totalCount: '{{count}} contributions this year',
+          }}
+        />
+      </div>
+    </motion.div>
   );
 };

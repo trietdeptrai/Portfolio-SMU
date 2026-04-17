@@ -91,8 +91,49 @@
   .animate-marquee {
     animation: marquee 60s linear infinite;
   }
+  .animate-marquee-reverse {
+    animation: marquee-reverse 60s linear infinite;
+  }
   @keyframes marquee {
     0% { transform: translateX(0%); }
     100% { transform: translateX(-50%); }
   }
+  @keyframes marquee-reverse {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
+  }
+}
+
+/* GitHub Contribution Graph overrides */
+.github-graph-wrap .react-activity-calendar {
+  font-family: "Space Grotesk", ui-monospace, monospace;
+}
+
+.github-graph-wrap .react-activity-calendar__legend-month,
+.github-graph-wrap .react-activity-calendar__legend-weekday {
+  font-size: 11px !important;
+  fill: rgba(255, 255, 255, 0.38) !important;
+}
+
+.github-graph-wrap .react-activity-calendar__count {
+  font-size: 12px !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  font-family: "Space Grotesk", ui-monospace, monospace !important;
+}
+
+.github-graph-wrap .react-activity-calendar__footer {
+  gap: 12px;
+}
+
+/* Scrollbar for mobile horizontal scroll */
+.github-graph-wrap ::-webkit-scrollbar {
+  height: 4px;
+}
+.github-graph-wrap ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 2px;
+}
+.github-graph-wrap ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
 }
