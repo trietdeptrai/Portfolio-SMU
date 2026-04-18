@@ -87,23 +87,6 @@
   }
 }
 
-@layer utilities {
-  .animate-marquee {
-    animation: marquee 60s linear infinite;
-  }
-  .animate-marquee-reverse {
-    animation: marquee-reverse 60s linear infinite;
-  }
-  @keyframes marquee {
-    0% { transform: translateX(0%); }
-    100% { transform: translateX(-50%); }
-  }
-  @keyframes marquee-reverse {
-    0% { transform: translateX(-50%); }
-    100% { transform: translateX(0%); }
-  }
-}
-
 /* GitHub Contribution Graph overrides */
 .github-graph-wrap .react-activity-calendar {
   font-family: "Space Grotesk", ui-monospace, monospace;
@@ -136,4 +119,27 @@
 .github-graph-wrap ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 2px;
+}
+
+.media-scroll-row {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.04);
+}
+
+.media-scroll-row::-webkit-scrollbar {
+  height: 8px;
+}
+
+.media-scroll-row::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 999px;
+}
+
+.media-scroll-row::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+}
+
+.media-scroll-row::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.32);
 }

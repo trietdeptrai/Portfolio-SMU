@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Spline from '@splinetool/react-spline';
-import { motion, useScroll, useTransform, useInView } from 'motion/react';
+import { motion, useAnimationFrame, useScroll, useTransform, useInView } from 'motion/react';
 import { GitHubCalendar } from 'react-github-calendar';
 
 type EvidenceTile = {
@@ -337,24 +337,32 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
 };
 
 const EvidenceMarquee = ({ tiles, theme }: { tiles: EvidenceTile[]; theme: PhaseTheme }) => {
-  // Duplicate tiles to ensure seamless infinite scroll
-  // Four copies guarantee it covers ultra-wide screens even if the original array is short
   const marqueeTiles = [...tiles, ...tiles, ...tiles, ...tiles];
+  const scrollBindings = useInfiniteScroll({ direction: 'forward', speedPxPerSecond: 42 });
 
   return (
     <div
-      className="mt-6 flex overflow-hidden"
+      ref={scrollBindings.containerRef}
+      className="media-scroll-row mt-6 overflow-x-auto pb-4"
       style={{
         maskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)',
         WebkitMaskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)'
       }}
+      onPointerEnter={scrollBindings.handlePointerEnter}
+      onPointerLeave={scrollBindings.handlePointerLeave}
+      onPointerDown={scrollBindings.handleManualIntent}
+      onTouchStart={scrollBindings.handleManualIntent}
+      onWheel={scrollBindings.handleManualIntent}
+      onScroll={scrollBindings.handleScroll}
     >
-      <div className="flex w-max flex-nowrap gap-3 pr-3 pt-1 pb-1 hover:[animation-play-state:paused] animate-marquee">
+      <div className="w-max min-w-full">
+        <div ref={scrollBindings.trackRef} className="flex w-max flex-nowrap gap-3 pr-3 pt-1 pb-1">
         {marqueeTiles.map((tile, idx) => (
           <React.Fragment key={`${tile.title}-${idx}`}>
             <EvidenceTileCard tile={tile} theme={theme} />
           </React.Fragment>
         ))}
+        </div>
       </div>
     </div>
   );
@@ -408,18 +416,26 @@ const EvidenceTileCard = ({ tile, theme }: { tile: EvidenceTile; theme: PhaseThe
 };
 
 const ProjectMarquee = ({ projects }: { projects: ProjectCard[] }) => {
-  // Duplicate tiles to ensure seamless infinite scroll backwards
   const marqueeProjects = [...projects, ...projects, ...projects, ...projects];
+  const scrollBindings = useInfiniteScroll({ direction: 'reverse', speedPxPerSecond: 38 });
 
   return (
     <div
-      className="mt-6 flex overflow-hidden"
+      ref={scrollBindings.containerRef}
+      className="media-scroll-row mt-6 overflow-x-auto pb-4"
       style={{
         maskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)',
         WebkitMaskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)'
       }}
+      onPointerEnter={scrollBindings.handlePointerEnter}
+      onPointerLeave={scrollBindings.handlePointerLeave}
+      onPointerDown={scrollBindings.handleManualIntent}
+      onTouchStart={scrollBindings.handleManualIntent}
+      onWheel={scrollBindings.handleManualIntent}
+      onScroll={scrollBindings.handleScroll}
     >
-      <div className="flex w-max flex-nowrap gap-3 pr-3 pt-1 pb-1 hover:[animation-play-state:paused] animate-marquee-reverse">
+      <div className="w-max min-w-full">
+        <div ref={scrollBindings.trackRef} className="flex w-max flex-nowrap gap-3 pr-3 pt-1 pb-1">
         {marqueeProjects.map((project, idx) => (
           <React.Fragment key={`${project.title}-${idx}`}>
             <ProjectCardItem
@@ -428,9 +444,123 @@ const ProjectMarquee = ({ projects }: { projects: ProjectCard[] }) => {
             />
           </React.Fragment>
         ))}
+        </div>
       </div>
     </div>
   );
+};
+
+const useInfiniteScroll = ({
+  direction,
+  speedPxPerSecond,
+}: {
+  direction: 'forward' | 'reverse';
+  speedPxPerSecond: number;
+}) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const loopWidthRef = useRef(0);
+  const isHoveringRef = useRef(false);
+  const pauseUntilRef = useRef(0);
+  const isAdjustingRef = useRef(false);
+  const initializedRef = useRef(false);
+
+  const normalizeScrollLeft = useCallback((value: number, loopWidth: number) => {
+    if (loopWidth <= 0) return value;
+    const wrapped = value % loopWidth;
+    return wrapped < 0 ? wrapped + loopWidth : wrapped;
+  }, []);
+
+  const setWrappedScrollLeft = useCallback((value: number) => {
+    const container = containerRef.current;
+    const loopWidth = loopWidthRef.current;
+    if (!container || loopWidth <= 0) return;
+
+    isAdjustingRef.current = true;
+    container.scrollLeft = normalizeScrollLeft(value, loopWidth);
+    requestAnimationFrame(() => {
+      isAdjustingRef.current = false;
+    });
+  }, [normalizeScrollLeft]);
+
+  const refreshMeasurements = useCallback(() => {
+    const container = containerRef.current;
+    const track = trackRef.current;
+    if (!container || !track) return;
+
+    const loopWidth = track.scrollWidth / 2;
+    if (!Number.isFinite(loopWidth) || loopWidth <= 0) return;
+
+    loopWidthRef.current = loopWidth;
+    const nextScrollLeft = initializedRef.current ? container.scrollLeft : loopWidth / 2;
+    setWrappedScrollLeft(nextScrollLeft);
+    initializedRef.current = true;
+  }, [setWrappedScrollLeft]);
+
+  useEffect(() => {
+    refreshMeasurements();
+
+    const resizeObserver = new ResizeObserver(() => {
+      refreshMeasurements();
+    });
+
+    if (containerRef.current) resizeObserver.observe(containerRef.current);
+    if (trackRef.current) resizeObserver.observe(trackRef.current);
+
+    return () => resizeObserver.disconnect();
+  }, [refreshMeasurements]);
+
+  useAnimationFrame((time, delta) => {
+    const container = containerRef.current;
+    const loopWidth = loopWidthRef.current;
+
+    if (!container || loopWidth <= 0 || isHoveringRef.current || time < pauseUntilRef.current) {
+      return;
+    }
+
+    const directionMultiplier = direction === 'forward' ? 1 : -1;
+    const nextScrollLeft = container.scrollLeft + (directionMultiplier * speedPxPerSecond * delta) / 1000;
+    setWrappedScrollLeft(nextScrollLeft);
+  });
+
+  const handleManualIntent = useCallback(() => {
+    pauseUntilRef.current = performance.now() + 1400;
+  }, []);
+
+  const handleScroll = useCallback(() => {
+    const container = containerRef.current;
+    const loopWidth = loopWidthRef.current;
+    if (!container || loopWidth <= 0 || isAdjustingRef.current) return;
+
+    handleManualIntent();
+
+    if (container.scrollLeft <= 0) {
+      setWrappedScrollLeft(loopWidth - 1);
+      return;
+    }
+
+    if (container.scrollLeft >= loopWidth) {
+      setWrappedScrollLeft(container.scrollLeft - loopWidth);
+    }
+  }, [handleManualIntent, setWrappedScrollLeft]);
+
+  const handlePointerEnter = useCallback(() => {
+    isHoveringRef.current = true;
+  }, []);
+
+  const handlePointerLeave = useCallback(() => {
+    isHoveringRef.current = false;
+    pauseUntilRef.current = performance.now() + 600;
+  }, []);
+
+  return {
+    containerRef,
+    trackRef,
+    handleManualIntent,
+    handlePointerEnter,
+    handlePointerLeave,
+    handleScroll,
+  };
 };
 
 const ProjectCardItem = ({ project, isFeatured }: { project: ProjectCard; isFeatured: boolean }) => {
