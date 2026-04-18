@@ -10,14 +10,39 @@ interface ProjectShowcaseProps {
   onClose: () => void;
 }
 
-const highlightMetrics = (text: string) => {
-  // Regex to match percentages (e.g., 77%, 38.5%)
-  const parts = text.split(/(\d+(?:\.\d+)?%)/g);
-  return parts.map((part, i) => 
-    part.match(/\d+(?:\.\d+)?%/) ? (
-      <span key={i} className="text-lime-400 font-bold">{part}</span>
-    ) : part
-  );
+const renderRichText = (text: string) => {
+  if (!text) return null;
+  
+  // Regex to match:
+  // 1. **bold**
+  // 2. [h]high-contrast highlight[/h]
+  // 3. Percentages (e.g., 77%)
+  const parts = text.split(/(\*\*.*?\*\*|\[h\].*?\[\/h\]|\d+(?:\.\d+)?%)/g);
+  
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return (
+        <strong key={i} className="text-foreground font-bold font-display">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    if (part.startsWith('[h]') && part.endsWith('[/h]')) {
+      return (
+        <span key={i} className="text-lime-400 font-bold">
+          {part.slice(3, -4)}
+        </span>
+      );
+    }
+    if (part.match(/\d+(?:\.\d+)?%/)) {
+      return (
+        <span key={i} className="text-lime-400 font-bold">
+          {part}
+        </span>
+      );
+    }
+    return part;
+  });
 };
 
 export default function ProjectShowcase({ project, onClose }: ProjectShowcaseProps) {
@@ -124,7 +149,7 @@ export default function ProjectShowcase({ project, onClose }: ProjectShowcasePro
               <div>
                 <h3 className="text-3xl font-display font-bold mb-6 text-foreground">Overview</h3>
                 <p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
-                  {project.fullDescription}
+                  {renderRichText(project.fullDescription)}
                 </p>
               </div>
 
@@ -132,7 +157,7 @@ export default function ProjectShowcase({ project, onClose }: ProjectShowcasePro
                 <h3 className="text-3xl font-display font-bold mb-6 text-foreground">The Challenge</h3>
                 <div className="bg-secondary/30 border border-border/50 p-8 rounded-2xl">
                   <p className="text-xl text-foreground italic font-display whitespace-pre-line leading-relaxed">
-                    "{highlightMetrics(project.challenge)}"
+                    "{renderRichText(project.challenge)}"
                   </p>
                 </div>
               </div>

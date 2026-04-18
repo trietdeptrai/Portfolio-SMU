@@ -2,7 +2,7 @@ export interface Project {
   id: number;
   title: string;
   category: string;
-  type: 'Content' | 'Coding Project';
+  type: 'Content' | 'Coding Project' | 'Community';
   description: string;
   fullDescription: string;
   challenge: string;
@@ -17,6 +17,7 @@ export interface Project {
     fit?: 'cover' | 'contain';
     position?: string;
     scale?: number;
+    overlayStrength?: 'light' | 'normal' | 'strong';
   };
 }
 
@@ -50,47 +51,152 @@ export const projects: Project[] = [
   },
   {
     id: 2,
-    title: 'Fintech Dashboard',
+    title: 'SafeFormAI',
     category: 'Web App',
     type: 'Coding Project',
-    description: 'A complex data visualization dashboard for financial analysts.',
-    fullDescription: 'A high-performance trading and analytics dashboard built for real-time market monitoring. It features custom WebGL charts and a modular widget system for analysts to customize their workspace.',
-    challenge: 'Rendering thousands of data points at 60fps in the browser while maintaining high interaction responsiveness.',
-    role: 'Frontend Developer',
-    year: '2023 - 2024',
-    techStack: ['React', 'D3.js', 'Redux', 'WebGL'],
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop',
-    gallery: [],
+    description: 'An AI personal trainer that can provide feedback on your workout form.',
+    fullDescription: 'SafeFormAI is a webapp that utilize vision capability of Gemini to analyze user workout form and provide visual feedback, with detailed timestamp of where you did wrong, and specific steps to improve.',
+    challenge: "I’ve noticed that many people prefer working out at home—maybe because they’re too busy to go to the gym, gym memberships are expensive, or simply because the gym music is terrible.\n\n Training at home is private and convenient, but the downside is that no one corrects your form.\n\n I once had to stop training for nearly a year and a half due to a back injury. There were many reasons for it, and one of them was consistently using improper form over a long period of time.\n\nYou’re afraid of training with bad form, but you don’t have the time or money to hire a personal trainer.\n\nThat pain point is why I built SafeFormAI.",
+    role: 'Frontend Developer, Product Owner',
+    year: '2025',
+    techStack: ['Reactjs', 'typescript', 'FastAPI', 'Vercel', 'CloudfareR2', 'Gemini API'],
+    liveUrl: 'https://www.facebook.com/reel/26177407271877746',
+    image: '/assets/projects/SafeFormAI.png',
+    gallery: [
+      '/assets/projects/SafeFormAI.png',
+      '/assets/projects/exerciseselction.png',
+      '/assets/projects/app.png',
+      '/assets/projects/project_architecture.png',
+    ],
     className: 'md:col-span-1 md:row-span-2',
+    imageConfig: {
+      fit: 'cover',
+      position: '80% 70%',
+      scale: 1
+    }
   },
   {
     id: 3,
-    title: 'Brand Identity',
-    category: 'Marketing',
+    title: 'A comprehensive guide to Large Language Models for non-technical people',
+    category: 'Highly-researched content',
     type: 'Content',
-    description: 'Strategic repositioning for a B2B SaaS company.',
-    fullDescription: 'A full visual and verbal identity reboot for a logistics SaaS provider. This project involved deep market research, stakeholder interviews, and a complete design system rollout.',
-    challenge: 'The brand felt dated and academic. We needed to transition it into a modern, tech-forward aesthetic that still communicated trust and reliability.',
-    role: 'Marketing Strategist',
-    year: '2023',
-    techStack: ['Figma', 'Adobe Creative Suite', 'Storybook'],
-    image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1600&auto=format&fit=crop',
-    gallery: [],
+    description: 'All you need to know about how Large Language Models work.',
+    fullDescription: 'I write this post to educate vietnamese on the fundamentals of Large Language Model, including its definition, the training process, and how to apply it in our own life. Up until now, it is the most-viewed video in Vietnamese (300k+ views) on this topic.',
+    challenge: 'Large Language Models was still a new concept for Vietnamese people, and there were not many resources available to help them understand it. People still called them "AI" in a generic way. So I decided to write a comprehensive guide to Large Language Models for non-technical people, with intuitive examples and highly-researched content explained in a simple way.',
+    role: 'Content Writer',
+    year: '2025',
+    techStack: ['Nothing besides Notion, my brain, Google, and Youtube'],
+    liveUrl: 'https://www.youtube.com/watch?v=ZRpgQ1vLWhI&t=245s',
+    image: '/assets/projects/LLMthumb.png',
+    gallery: [
+      '/assets/projects/LLM.png',
+      '/assets/projects/LLM2.png',
+      '/assets/projects/LLM3.png',
+    ],
     className: 'md:col-span-2 md:row-span-1',
+    imageConfig: {
+      fit: 'cover',
+      position: 'center',
+      overlayStrength: 'strong',
+    }
   },
   {
     id: 4,
-    title: 'Mobile App Concept',
-    category: 'Product Design',
+    title: 'Study with Triet',
+    category: 'Web app',
     type: 'Coding Project',
-    description: 'An exploratory concept for a habit-tracking application.',
-    fullDescription: 'A minimalist habit-tracker that uses behavioral psychology to nudge users toward their goals. Features include gesture-based logging and mood-based color themes.',
-    challenge: 'Creating a habit-tracker that doesn\'t feel like a "chore" list. We focused on micro-interactions and frictionless onboarding.',
-    role: 'Product Designer',
-    year: '2023',
-    techStack: ['Flutter', 'Firebase', 'Framer Motion'],
-    image: 'https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=800&auto=format&fit=crop',
-    gallery: [],
+    description: 'An aesthetic pomodoro website',
+    fullDescription: 'Study with Triet is a pomodoro website designed with Users in mind. Users can listen to music, upload their own images, customize their focus time on the web. The app got a total of 4000 visits.',
+    challenge: 'This is my first web app, and I wanted to create something that I would find useful.',
+    role: 'I did it all',
+    year: '2025',
+    techStack: ['Vite', 'Typescript', 'React', 'Shadcn-ui', 'Tailwind CSS'],
+    liveUrl: 'https://trietpomodoro.com/',
+    image: '/assets/projects/StudyWithTriet.png',
+    gallery: [
+      '/assets/projects/StudyWithTriet.png',
+      '/assets/projects/Learningresources.png',
+      '/assets/projects/Lightmode.png',
+      '/assets/projects/analytics.png',
+      '/assets/projects/setting.png',
+    ],
+    className: 'md:col-span-2 md:row-span-2',
+  },
+  {
+    id: 6,
+    title: 'Vietnamese Voice Forge',
+    category: 'Entry to NLP',
+    type: 'Coding Project',
+    description: 'Training model for Vietnamese style paraphrasing',
+    fullDescription: 'This project, which I collaborated with my friends, focuses on Vietnamese style paraphrasing as an entry point into natural language processing (NLP). Specifically, we executed two tasks: paraphrasing modern Vietnamese sentences to ancient style (cổ trang) Vietnamese sentences, and paraphrasing modern Vietnamese sentences to Quang Binh Dialect.',
+    challenge: 'The primary bottleneck was the lack of quality training data, and our limited knowledge of NLP at the time. We had to spend a lot of time researching and learning about NLP, and we also had to spend a lot of time collecting and cleaning data.',
+    role: 'Data Engineer',
+    year: '2024-2025',
+    techStack: ['Langchain', 'Hugging Face', 'Deepseek API', 'Python', 'VastAI'],
+    liveUrl: 'https://github.com/DiligentPenguinn/vietnamese-voice-forge',
+    image: '/assets/projects/NLP.png',
+    gallery: [
+      '/assets/projects/NLP.png',
+      '/assets/projects/NLP2.png',
+      '/assets/projects/NLP3.png',
+      '/assets/projects/dataset.png',
+    ],
+    className: 'md:col-span-1 md:row-span-1',
+    imageConfig: {
+      position: 'center bottom',
+    }
+  },
+  {
+    id: 7,
+    title: 'XG-boost house-price predictor',
+    category: 'ML project',
+    type: 'Coding Project',
+    description: 'end-to-end ML project on house-price prediction, VietAI final project',
+    fullDescription: `This project aims to predict **house prices in Vietnam** using machine learning models, trained on a real estate dataset scraped from **batdongsan.com** and shared via **Kaggle**. The task is formulated as a **regression problem**.
+
+**Dataset Overview**: Contains over [h]30,000 samples[/h] with features such as Area, Number of Floors, Bedrooms, Bathrooms, Frontage, Road Width, and Legal Status.
+
+Some features have high missing rates (e.g., Balcony Direction: **82%**). Those with [h]> 50% missing[/h] were removed.
+
+**Key preprocessing steps**:
+- **Log transformation** for skewed numerical features (Area, Frontage, Access Road).
+- Added **binary indicators** for missing values (e.g., Frontage_missing).
+- Created new feature: **bathrooms_per_bedroom**.
+- Applied **standard scaling** for numerical data and **one-hot encoding** for categorical ones.`,
+    challenge: `The primary bottleneck was the **high rate of missing data** and **extreme skewness** in real estate pricing. I had to implement robust feature engineering and **XGBoost** parameter tuning to achieve reliable predictive accuracy. I was proud of the fact that I got 2nd place in the class.`,
+    role: 'I did it all',
+    year: '2025',
+    techStack: ['Python', 'XGBoost', 'Scikit-learn', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn'],
+    image: '/assets/projects/HP.png',
+    gallery: [
+      '/assets/projects/HP.png',
+      '/assets/projects/XGboost.png',
+    ],
+    className: 'md:col-span-1 md:row-span-1',
+  },
+  {
+    id: 5,
+    title: 'Facilitator for AI and DeepLearning meetup Danang',
+    category: 'Community Initiative',
+    type: 'Community',
+    description: 'I was nominated to become the facilitator of this Meetup for 6 months',
+    fullDescription: 'I curated weekly news on AI for coding, productivity, education and shared it with the groups. I also organized co-working events where we will work on our own projects, share our progress, and help each other out.',
+    challenge: 'It was hard to lead the entire discussion in English, my second language, and on a topic that I am still learning. There are a lot of builders and technical people in the meetup, so that 2x the pressure. But I did it anyway, and glad that people actually praise me for my hosting ability.',
+    role: 'facilitator',
+    year: '2025 - 2026',
+    techStack: ['Project Management', 'Event Planning', 'Public Speaking',],
+    image: '/assets/projects/MeetUp.jpg',
+    gallery: [
+      '/assets/projects/MeetUp.jpg',
+      '/assets/projects/feedback.png',
+      '/assets/projects/MeetUp2.jpg',
+      '/assets/projects/MeetUp3.jpg',
+      '/assets/projects/MeetUp4.jpg',
+      '/assets/projects/MeetUp5.jpg',
+      '/assets/projects/Meetup6.png',
+      '/assets/projects/Meetup7.png',
+      '/assets/projects/Meetup8.png',
+    ],
     className: 'md:col-span-1 md:row-span-1',
   }
 ];

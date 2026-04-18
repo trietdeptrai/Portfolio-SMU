@@ -63,7 +63,7 @@ const phases: Phase[] = [
       'So I turned to AI\nand software.',
       'Personalization at scale is\nnot a content problem.\nIt is a systems problem.',
     ],
-    evidenceTitle: 'Signals of the Shift',
+    evidenceTitle: 'Signals of the Shift (see the projects section for more detail)',
     evidence: [
       { title: 'Youtube video about Large Language Models', meta: '300k views (most-viewed video in Vietnamese about LLM)', span: 'md', image: 'assets/phase2/LLM.png' },
       { title: 'VietAI Certification - Foundation of Machine Learning', meta: 'Graduated with distinction, top 2 of the whole cohort, certified by Dr Thang Luong (Director of research at Google Deepmind)', span: 'sm', image: 'assets/phase2/VietAI.png' },
@@ -190,13 +190,14 @@ export default function About() {
 
         <div className="space-y-8 md:space-y-10">
           {phases.map((phase) => (
-            <PhasePanel
-              key={phase.id}
-              phase={phase}
-              setRef={(node) => {
-                sectionRefs.current[phase.id] = node;
-              }}
-            />
+            <React.Fragment key={phase.id}>
+              <PhasePanel
+                phase={phase}
+                setRef={(node) => {
+                  sectionRefs.current[phase.id] = node;
+                }}
+              />
+            </React.Fragment>
           ))}
         </div>
       </div>
@@ -289,7 +290,7 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
           {phase.opening[1] ? (
             phase.id === '03' ? (
               <div className="mt-6 mb-8">
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -350,7 +351,9 @@ const EvidenceMarquee = ({ tiles, theme }: { tiles: EvidenceTile[]; theme: Phase
     >
       <div className="flex w-max flex-nowrap gap-3 pr-3 pt-1 pb-1 hover:[animation-play-state:paused] animate-marquee">
         {marqueeTiles.map((tile, idx) => (
-          <EvidenceTileCard key={`${tile.title}-${idx}`} tile={tile} theme={theme} />
+          <React.Fragment key={`${tile.title}-${idx}`}>
+            <EvidenceTileCard tile={tile} theme={theme} />
+          </React.Fragment>
         ))}
       </div>
     </div>
@@ -418,11 +421,12 @@ const ProjectMarquee = ({ projects }: { projects: ProjectCard[] }) => {
     >
       <div className="flex w-max flex-nowrap gap-3 pr-3 pt-1 pb-1 hover:[animation-play-state:paused] animate-marquee-reverse">
         {marqueeProjects.map((project, idx) => (
-          <ProjectCardItem
-            key={`${project.title}-${idx}`}
-            project={project}
-            isFeatured={idx % projects.length === 0}
-          />
+          <React.Fragment key={`${project.title}-${idx}`}>
+            <ProjectCardItem
+              project={project}
+              isFeatured={idx % projects.length === 0}
+            />
+          </React.Fragment>
         ))}
       </div>
     </div>

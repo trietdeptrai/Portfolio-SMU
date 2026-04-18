@@ -16,7 +16,7 @@ export default function Projects() {
           <h3 className="font-display text-4xl md:text-5xl font-bold">Selected Works.</h3>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 auto-rows-[300px]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 auto-rows-[300px] grid-flow-row-dense">
           {projects.map((project) => (
             <ProjectCard key={project.id} project={project} onClick={() => setActiveProject(project)} />
           ))}
