@@ -26,6 +26,12 @@ export default function Hero() {
         transition={{ duration: 1, delay: 0.2 }}
         className="flex-1 relative z-10 flex min-h-[42vh] flex-col justify-end items-start text-left px-6 pb-10 pt-14 md:min-h-0 md:justify-center md:items-end md:text-right p-8 md:p-16 lg:p-24 border-b md:border-b-0 md:border-r border-border/50 transition-colors hover:bg-background/10"
       >
+        <div className="mb-6 inline-flex max-w-[18rem] items-start gap-3 border border-border/60 bg-background/35 px-4 py-3 backdrop-blur-sm md:hidden">
+          <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-primary/70" aria-hidden="true" />
+          <p className="font-mono text-[10px] uppercase leading-4 tracking-[0.18em] text-foreground/80">
+            For the full experience, please view this portfolio on desktop.
+          </p>
+        </div>
         <h1 className="mb-4 font-serif text-[3rem] font-medium leading-[0.95] md:mb-6 md:text-6xl lg:text-7xl">
           Educator & <br />
           <span className="italic text-muted-foreground">Story-teller.</span>
