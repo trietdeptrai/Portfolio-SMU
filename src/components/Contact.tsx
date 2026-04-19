@@ -9,11 +9,11 @@ const socialLinks = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-24 md:py-32 bg-background relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col">
+    <section id="contact" className="relative overflow-hidden bg-background py-18 md:py-32">
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-4 sm:px-6">
         
         {/* Navigation & Headline */}
-        <div className="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-8 mb-20 md:mb-32">
+        <div className="mb-12 flex flex-col items-start justify-between gap-8 md:mb-32 md:flex-row md:gap-8">
           <motion.div
              initial={{ opacity: 0, y: 20 }}
              whileInView={{ opacity: 1, y: 0 }}
@@ -21,10 +21,10 @@ export default function Contact() {
              transition={{ duration: 0.8 }}
              className="max-w-4xl"
           >
-            <h2 className="text-sm font-mono text-muted-foreground uppercase tracking-widest mb-8 flex items-center gap-2">
+            <h2 className="mb-5 flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.28em] text-muted-foreground md:mb-8 md:text-sm md:tracking-widest">
               <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/60" /> Let's Connect
             </h2>
-            <h3 className="font-display text-3xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.1]">
+            <h3 className="max-w-[20rem] font-display text-[2rem] font-semibold leading-[1.08] tracking-tight md:max-w-none md:text-5xl lg:text-6xl">
               If you are looking for a <span className="font-serif italic font-medium text-[#14532d] dark:text-lime-400">creative</span> and <span className="font-serif italic font-medium text-[#14532d] dark:text-lime-400">ambitious</span> candidate, I think we need to talk.
             </h3>
           </motion.div>
@@ -44,13 +44,13 @@ export default function Contact() {
               href={link.url}
               target={link.name !== 'Gmail' ? '_blank' : undefined}
               rel={link.name !== 'Gmail' ? 'noopener noreferrer' : undefined}
-              className="group relative flex items-center justify-between w-full py-6 md:py-8 border-b border-border hover:border-lime-500/50 transition-colors duration-300"
+              className="group relative flex w-full items-center justify-between border-b border-border py-4 transition-colors duration-300 hover:border-lime-500/50 md:py-8"
             >
-              <span className="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground group-hover:text-lime-600 dark:group-hover:text-lime-400 transition-colors duration-300">
+              <span className="font-display text-[2rem] font-bold tracking-tight text-foreground transition-colors duration-300 group-hover:text-lime-600 md:text-5xl lg:text-6xl dark:group-hover:text-lime-400">
                 {link.name}
               </span>
-              <div className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                <ArrowUpRight className="w-8 h-8 md:w-10 md:h-10 text-lime-600 dark:text-lime-400" />
+              <div className="translate-x-0 opacity-70 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 md:-translate-x-4 md:opacity-0">
+                <ArrowUpRight className="h-6 w-6 text-lime-600 md:h-10 md:w-10 dark:text-lime-400" />
               </div>
             </a>
           ))}

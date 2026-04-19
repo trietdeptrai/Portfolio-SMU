@@ -96,9 +96,9 @@ const phases: Phase[] = [
 ];
 
 const widthClassMap: Record<NonNullable<EvidenceTile['span']>, string> = {
-  sm: 'w-[260px] md:w-[300px]',
-  md: 'w-[300px] md:w-[420px]',
-  lg: 'w-[360px] md:w-[500px]',
+  sm: 'w-[220px] md:w-[300px]',
+  md: 'w-[260px] md:w-[420px]',
+  lg: 'w-[300px] md:w-[500px]',
 };
 
 const SPLINE_SCENE_URL = 'https://prod.spline.design/qB9mWdZXwu51oQKR/scene.splinecode';
@@ -135,11 +135,11 @@ export default function About() {
   }, []);
 
   return (
-    <section id="about" className="relative bg-background py-24 md:py-32">
-      <div className="mx-auto grid max-w-7xl gap-14 px-6 md:grid-cols-[240px_minmax(0,1fr)] md:gap-16">
+    <section id="about" className="relative bg-background py-18 md:py-32">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 md:grid-cols-[240px_minmax(0,1fr)] md:gap-16">
         <aside className="h-fit md:sticky md:top-28">
           <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-muted-foreground">The Narrative</p>
-          <h2 className="mt-4 font-display text-3xl font-semibold leading-none text-foreground md:text-4xl">
+          <h2 className="mt-3 font-display text-[2rem] font-semibold leading-none text-foreground md:mt-4 md:text-4xl">
             <TypewriterHook text="Hello, I'm Triet." />
           </h2>
           <motion.p
@@ -147,13 +147,13 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: 1.2 }}
-            className="mt-5 max-w-[15rem] text-sm leading-6 text-muted-foreground"
+            className="mt-4 max-w-[18rem] text-[0.95rem] leading-6 text-muted-foreground md:mt-5 md:max-w-[15rem] md:text-sm"
           >
             An <span className="italic text-foreground">educator, marketer & builder</span> aspiring to
             attend SMU&apos;s MITB AI track. Below is the story of how I got here.
           </motion.p>
 
-          <nav className="mt-10 space-y-5 border-l border-border/80 pl-4" aria-label="About phases">
+          <nav className="mt-8 -mx-1 flex gap-2 overflow-x-auto px-1 pb-2 md:mx-0 md:block md:space-y-5 md:overflow-visible md:border-l md:border-border/80 md:px-0 md:pb-0 md:pl-4" aria-label="About phases">
             {phases.map((phase) => {
               const isActive = phase.id === activePhase;
 
@@ -167,7 +167,7 @@ export default function About() {
                       block: 'start',
                     })
                   }
-                  className="group flex w-full items-start gap-3 text-left"
+                  className="group flex min-w-fit items-start gap-3 rounded-full border border-border/70 bg-background/70 px-3 py-2 text-left backdrop-blur-sm md:w-full md:rounded-none md:border-0 md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-none"
                 >
                   <span
                     className={`mt-[6px] h-2.5 w-2.5 rounded-full border transition-colors duration-300 ${isActive ? 'border-lime-400 bg-lime-400' : 'border-border bg-transparent group-hover:border-foreground/50'
@@ -176,7 +176,7 @@ export default function About() {
                   <div>
                     <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted-foreground">{phase.id}</p>
                     <p
-                      className={`mt-1 font-display text-base leading-tight transition-colors duration-300 ${isActive ? 'text-foreground' : 'text-muted-foreground group-hover:text-foreground'
+                      className={`mt-1 font-display text-[15px] leading-tight transition-colors duration-300 md:text-base ${isActive ? 'text-foreground' : 'text-muted-foreground group-hover:text-foreground'
                         }`}
                     >
                       {phase.navTitle}
@@ -188,7 +188,7 @@ export default function About() {
           </nav>
         </aside>
 
-        <div className="space-y-8 md:space-y-10">
+        <div className="space-y-6 md:space-y-10">
           {phases.map((phase) => (
             <React.Fragment key={phase.id}>
               <PhasePanel
@@ -233,7 +233,7 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
         }`}
     >
       <div className={`absolute inset-0 ${isLight ? 'bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.85),transparent_60%)]' : 'bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_55%)]'}`} />
-      <div className={`relative px-6 py-8 md:px-10 md:py-10 ${phase.hasSpline ? 'pb-6 md:pb-8' : 'pb-8 md:pb-10'}`}>
+      <div className={`relative px-4 py-6 sm:px-5 md:px-10 md:py-10 ${phase.hasSpline ? 'pb-5 md:pb-8' : 'pb-6 md:pb-10'}`}>
         <div className="flex items-start justify-between gap-6">
           <span
             className={`rounded-full border px-3 py-1 font-mono text-[11px] uppercase tracking-[0.22em] ${isLight
@@ -249,9 +249,9 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
           />
         </div>
 
-        <div className="mt-14 max-w-5xl">
+        <div className="mt-10 max-w-5xl md:mt-14">
           <h3
-            className={`max-w-4xl font-display text-3xl font-semibold leading-[1.1] tracking-[-0.01em] md:text-5xl ${isAccent ? 'text-lime-400' : isLight ? 'text-black' : 'text-white'
+            className={`max-w-4xl font-display text-[2rem] font-semibold leading-[1.05] tracking-[-0.01em] md:text-5xl ${isAccent ? 'text-lime-400' : isLight ? 'text-black' : 'text-white'
               }`}
           >
             {phase.opening[0].split('\n').map((line, i) => (
@@ -264,7 +264,7 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
         </div>
 
         {phase.evidence?.length || phase.projects?.length ? (
-          <div className="mt-12">
+          <div className="mt-9 md:mt-12">
             {phase.evidenceTitle ? (
               <p className={`${isLight ? 'text-black/55' : 'text-white/50'} font-mono text-[11px] uppercase tracking-[0.24em]`}>
                 {phase.evidenceTitle}
@@ -286,7 +286,7 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
 
         {phase.id === '02' ? <GitHubGraph /> : null}
 
-        <div className={`mt-12 border-t ${isLight ? 'border-black/10' : 'border-white/10'} pt-6`}>
+        <div className={`mt-10 border-t ${isLight ? 'border-black/10' : 'border-white/10'} pt-5 md:mt-12 md:pt-6`}>
           {phase.opening[1] ? (
             phase.id === '03' ? (
               <div className="mt-6 mb-8">
@@ -295,14 +295,14 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2, duration: 0.8 }}
-                  className="relative overflow-hidden rounded-2xl bg-black py-10 px-6 md:py-12 md:px-10"
+                  className="relative overflow-hidden rounded-2xl bg-black px-5 py-8 md:px-10 md:py-12"
                 >
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(163,230,53,0.15),transparent_50%)]" />
                   <div className="relative z-10 max-w-4xl">
                     <span className="inline-block rounded-full bg-lime-400/10 border border-lime-400/20 px-3 py-1 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-lime-400 mb-5">
                       The Destination
                     </span>
-                    <h4 className="font-display text-[1.75rem] sm:text-4xl lg:text-[3.25rem] font-medium tracking-tight text-white leading-[1.1]">
+                    <h4 className="font-display text-[1.95rem] sm:text-4xl lg:text-[3.25rem] font-medium leading-[1.1] tracking-tight text-white">
                       SMU MITB <span className="text-white/40 font-light block sm:inline">(AI Track)</span><br className="hidden sm:block" /> is where I learn to make it <span className="text-lime-400 italic">real.</span>
                     </h4>
                   </div>
@@ -313,7 +313,7 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
               </div>
             ) : (
               <p
-                className={`max-w-3xl text-base leading-snug md:text-xl ${isLight ? 'text-black/75' : 'text-lime-400/80'
+                className={`max-w-3xl text-[15px] leading-7 md:text-xl ${isLight ? 'text-black/75' : 'text-lime-400/80'
                   }`}
               >
                 {phase.opening[1].split('\n').map((line, i) => (
@@ -326,7 +326,7 @@ const PhasePanel = ({ phase, setRef }: { phase: Phase; setRef: (node: HTMLElemen
             )
           ) : null}
           {phase.closing ? (
-            <p className={`${phase.opening[1] ? (phase.id === '03' ? '' : 'mt-3') : ''} max-w-3xl text-base md:text-[1.05rem] ${isLight ? 'text-black/65' : 'text-white/62'}`}>
+            <p className={`${phase.opening[1] ? (phase.id === '03' ? '' : 'mt-3') : ''} max-w-3xl text-[15px] md:text-[1.05rem] ${isLight ? 'text-black/65' : 'text-white/62'}`}>
               {phase.closing}
             </p>
           ) : null}
@@ -343,7 +343,7 @@ const EvidenceMarquee = ({ tiles, theme }: { tiles: EvidenceTile[]; theme: Phase
   return (
     <div
       ref={scrollBindings.containerRef}
-      className="media-scroll-row mt-6 overflow-x-auto pb-4"
+      className="media-scroll-row mt-5 overflow-x-auto pb-4 md:mt-6"
       style={{
         maskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)',
         WebkitMaskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)'
@@ -356,7 +356,7 @@ const EvidenceMarquee = ({ tiles, theme }: { tiles: EvidenceTile[]; theme: Phase
       onScroll={scrollBindings.handleScroll}
     >
       <div className="w-max min-w-full">
-        <div ref={scrollBindings.trackRef} className="flex w-max flex-nowrap gap-3 pr-3 pt-1 pb-1">
+        <div ref={scrollBindings.trackRef} className="flex w-max flex-nowrap gap-2.5 pr-3 pt-1 pb-1 md:gap-3">
         {marqueeTiles.map((tile, idx) => (
           <React.Fragment key={`${tile.title}-${idx}`}>
             <EvidenceTileCard tile={tile} theme={theme} />
@@ -381,14 +381,14 @@ const EvidenceTileCard = ({ tile, theme }: { tile: EvidenceTile; theme: PhaseThe
     >
       {/* Image area — takes up most of the card */}
       {hasImage ? (
-        <div className="relative w-full flex-1 min-h-44 md:min-h-52">
+        <div className="relative min-h-36 w-full flex-1 md:min-h-52">
           <img
             src={tile.image}
             alt={tile.title}
             className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
           />
           {/* Subtle top-left label on top of image */}
-          <div className="absolute top-3 left-4 z-10">
+          <div className="absolute left-3 top-3 z-10 md:left-4">
             <span className="rounded-full bg-black/40 backdrop-blur-sm px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.24em] text-white/70">
               Evidence
             </span>
@@ -405,10 +405,10 @@ const EvidenceTileCard = ({ tile, theme }: { tile: EvidenceTile; theme: PhaseThe
       )}
 
       {/* Text area — anchored at the bottom, outside the image */}
-      <div className={`select-none px-5 py-4 ${!hasImage ? 'mt-auto' : ''}`}>
-        <p className={`font-display text-lg leading-tight md:text-xl ${darkCard ? 'text-white' : 'text-black'}`}>{tile.title}</p>
+      <div className={`select-none px-4 py-3.5 md:px-5 md:py-4 ${!hasImage ? 'mt-auto' : ''}`}>
+        <p className={`font-display text-base leading-tight md:text-xl ${darkCard ? 'text-white' : 'text-black'}`}>{tile.title}</p>
         {tile.meta ? (
-          <p className={`mt-1.5 text-sm leading-6 ${darkCard ? 'text-white/55' : 'text-black/52'}`}>{tile.meta}</p>
+          <p className={`mt-1.5 text-[13px] leading-5 md:text-sm md:leading-6 ${darkCard ? 'text-white/55' : 'text-black/52'}`}>{tile.meta}</p>
         ) : null}
       </div>
     </div>
@@ -422,7 +422,7 @@ const ProjectMarquee = ({ projects }: { projects: ProjectCard[] }) => {
   return (
     <div
       ref={scrollBindings.containerRef}
-      className="media-scroll-row mt-6 overflow-x-auto pb-4"
+      className="media-scroll-row mt-5 overflow-x-auto pb-4 md:mt-6"
       style={{
         maskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)',
         WebkitMaskImage: 'linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent)'
@@ -435,7 +435,7 @@ const ProjectMarquee = ({ projects }: { projects: ProjectCard[] }) => {
       onScroll={scrollBindings.handleScroll}
     >
       <div className="w-max min-w-full">
-        <div ref={scrollBindings.trackRef} className="flex w-max flex-nowrap gap-3 pr-3 pt-1 pb-1">
+        <div ref={scrollBindings.trackRef} className="flex w-max flex-nowrap gap-2.5 pr-3 pt-1 pb-1 md:gap-3">
         {marqueeProjects.map((project, idx) => (
           <React.Fragment key={`${project.title}-${idx}`}>
             <ProjectCardItem
