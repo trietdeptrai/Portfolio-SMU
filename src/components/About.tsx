@@ -61,7 +61,7 @@ const phases: Phase[] = [
     theme: 'accent',
     opening: [
       'So I turned to AI\nand software.',
-      'Personalization at scale is\nnot a content problem.\nIt is a systems problem.',
+      'Personalization at scale is\nnot just a content problem.\nIt is a systems problem.',
     ],
     evidenceTitle: 'Signals of the Shift (see the projects section for more detail)',
     evidence: [

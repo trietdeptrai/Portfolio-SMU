@@ -163,6 +163,10 @@ Use a subagent when:
 
 Keep the main agent responsible for the immediate next decision and final integration.
 
+## 11a. GitHub Commit Tasks
+
+For tasks related to committing code to GitHub, do not require a plan unless the user explicitly asks for one.
+
 ## 12. Default Workflow
 
 Use this sequence unless the user explicitly asks for something else:
