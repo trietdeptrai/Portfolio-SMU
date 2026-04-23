@@ -50,7 +50,7 @@ export default function Projects() {
             </div>
 
             <p className="text-muted-foreground text-lg md:text-xl leading-relaxed max-w-xl">
-              You might not know this, but I build this entire portfolio myself (with the support of Antigravity). Hope you find it beautiful, I put a lot of effort into it.
+              This portfolio was designed and built entirely by me, with the support of Antigravity, and reflects the same dedication and creativity I bring to everything I do.
             </p>
           </div>
 
