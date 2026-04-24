@@ -15,9 +15,9 @@ export default function Navbar({ isDark, toggleDark }: { isDark: boolean; toggle
       
       <div className="flex items-center gap-8">
         <div className="hidden md:flex items-center gap-6 text-sm font-medium">
-          <a href="#about" className="hover:text-primary/70 transition-colors">About</a>
-          <a href="#projects" className="hover:text-primary/70 transition-colors">Projects</a>
-          <a href="#contact" className="hover:text-primary/70 transition-colors">Contact</a>
+          <a href="#about" className="text-foreground/70 hover:text-foreground transition-colors">About</a>
+          <a href="#projects" className="text-foreground/70 hover:text-foreground transition-colors">Projects</a>
+          <a href="#contact" className="text-foreground/70 hover:text-foreground transition-colors">Contact</a>
         </div>
         
         <button 
