@@ -2,7 +2,7 @@
 
 # Minh Triet Portfolio
 
-This repository contains the source code for `https://portfolio-smu.vercel.app/`, a narrative portfolio site that presents my transition from educator and marketer to (aspiring) AI-focused digital builder. I use this to apply for a master program at Singapore Management University
+This repository contains the source code for `https://portfolio-smu-minhtriet.vercel.app/`, a narrative portfolio site that presents my transition from educator and marketer to (aspiring) AI-focused digital builder. I use this to apply for a master program at Singapore Management University
 
 You can fork this portfolio and make changes on your own, but remember to give me proper credit by linking back to the **original portfolio**
 
@@ -56,5 +56,5 @@ Additional scripts:
 
 ## Deployment
 
-The repository is configured for deployment to the custom domain `https://portfolio-smu.vercel.app/`.
+The repository is configured for deployment to the custom domain `https://portfolio-smu-minhtriet.vercel.app/`.
 
