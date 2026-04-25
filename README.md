@@ -1,18 +1,11 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+
 
 # Minh Triet Portfolio
 
-This repository contains the source code for `https://portfolio-smu.vercel.app/`, a narrative portfolio site that presents Minh Triet's transition from educator and marketer to AI-focused digital builder.
+This repository contains the source code for `https://portfolio-smu.vercel.app/`, a narrative portfolio site that presents my transition from educator and marketer to (aspiring) AI-focused digital builder. I use this to apply for a master program at Singapore Management University
 
-The site is designed as more than a project gallery. It tells a three-phase story:
+You can fork this portfolio and make changes on your own, but remember to give me proper credit by linking back to the **original portfolio**
 
-- content and education
-- AI and systems
-- adaptive learning systems
-
-That narrative is supported by interactive case studies, visual evidence from Triet's work, and a selection of projects across software, machine learning, content, and community building.
 
 ## What The Portfolio Covers
 
@@ -21,6 +14,7 @@ That narrative is supported by interactive case studies, visual evidence from Tr
 - A Selected Works section with expandable project case studies
 - A Contact section with direct links for outreach
 - Theme switching, motion-heavy transitions, a Spline embed, and a GitHub activity graph
+- My AGENTS.md file for those who are curious
 
 ## Featured Work
 
@@ -63,3 +57,4 @@ Additional scripts:
 ## Deployment
 
 The repository is configured for deployment to the custom domain `https://portfolio-smu.vercel.app/`.
+
